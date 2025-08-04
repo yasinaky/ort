@@ -6,6 +6,11 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs.j
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion.jsx'
 import { Progress } from '@/components/ui/progress.jsx'
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert.jsx'
+import { Switch } from '@/components/ui/switch.jsx'
+import { EditProvider, useEdit } from './contexts/EditContext'
+import EditableElement from './components/EditableElement'
+import EditingControls from './components/EditingControls'
+import ResizeHandles from './components/ResizeHandles'
 import { 
   Monitor, 
   Wifi, 
@@ -100,25 +105,37 @@ function App() {
   const OverviewSection = () => (
     <div className="space-y-6">
       <div className="text-center py-8">
-        <h1 className="text-4xl font-bold text-blue-600 mb-4">
-          Digiturk IT Oryantasyonu
-        </h1>
-        <p className="text-xl text-gray-600 mb-6">
-          Yeni Başlayanlar İçin Kapsamlı Teknoloji Rehberi
-        </p>
+        <EditableElement type="text">
+          <h1 className="text-4xl font-bold text-blue-600 mb-4">
+            Digiturk IT Oryantasyonu
+          </h1>
+        </EditableElement>
+        <EditableElement type="text">
+          <p className="text-xl text-gray-600 mb-6">
+            Yeni Başlayanlar İçin Kapsamlı Teknoloji Rehberi
+          </p>
+        </EditableElement>
         <div className="max-w-4xl mx-auto">
-          <img src={image1} alt="Digiturk Logo" className="mx-auto mb-6 max-h-32" />
-          <div className="bg-blue-50 p-6 rounded-lg mb-6">
-            <div className="flex items-center justify-center gap-2 mb-4">
-              <Timer className="h-5 w-5 text-blue-600" />
-              <span className="text-lg font-semibold text-blue-800">Sunum Süresi: 40 Dakika</span>
+          <EditableElement type="image">
+            <img src={image1} alt="Digiturk Logo" className="mx-auto mb-6 max-h-32" />
+          </EditableElement>
+          <EditableElement>
+            <div className="bg-blue-50 p-6 rounded-lg mb-6">
+              <div className="flex items-center justify-center gap-2 mb-4">
+                <Timer className="h-5 w-5 text-blue-600" />
+                <EditableElement type="text">
+                  <span className="text-lg font-semibold text-blue-800">Sunum Süresi: 40 Dakika</span>
+                </EditableElement>
+              </div>
+              <EditableElement type="text">
+                <p className="text-lg text-gray-700 leading-relaxed">
+                  <strong>Şirketimize Hoş Geldiniz!</strong> Teknoloji, iş süreçlerimizin kalbi. Bu sunumda günlük işlerinizi 
+                  kolaylaştıracak sistemleri öğreneceksiniz. Doğru teknoloji kullanımı zaman kazandırır, güvenliği artırır 
+                  ve ekip çalışmasını güçlendirir.
+                </p>
+              </EditableElement>
             </div>
-            <p className="text-lg text-gray-700 leading-relaxed">
-              <strong>Şirketimize Hoş Geldiniz!</strong> Teknoloji, iş süreçlerimizin kalbi. Bu sunumda günlük işlerinizi 
-              kolaylaştıracak sistemleri öğreneceksiniz. Doğru teknoloji kullanımı zaman kazandırır, güvenliği artırır 
-              ve ekip çalışmasını güçlendirir.
-            </p>
-          </div>
+          </EditableElement>
         </div>
       </div>
 
@@ -126,26 +143,46 @@ function App() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Target className="h-5 w-5" />
-            Neden Önemli?
+            <EditableElement type="text">
+              <span>Neden Önemli?</span>
+            </EditableElement>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <div className="text-center p-4 bg-green-50 rounded-lg">
-              <Clock className="h-8 w-8 text-green-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-green-800">Zaman Kazandırır</h4>
-              <p className="text-sm text-green-700">Verimli sistem kullanımı</p>
-            </div>
-            <div className="text-center p-4 bg-blue-50 rounded-lg">
-              <Shield className="h-8 w-8 text-blue-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-blue-800">Güvenliği Artırır</h4>
-              <p className="text-sm text-blue-700">Veri ve sistem koruması</p>
-            </div>
-            <div className="text-center p-4 bg-purple-50 rounded-lg">
-              <Users className="h-8 w-8 text-purple-600 mx-auto mb-2" />
-              <h4 className="font-semibold text-purple-800">Ekip Çalışması</h4>
-              <p className="text-sm text-purple-700">İşbirliğini güçlendirir</p>
-            </div>
+            <EditableElement>
+              <div className="text-center p-4 bg-green-50 rounded-lg">
+                <Clock className="h-8 w-8 text-green-600 mx-auto mb-2" />
+                <EditableElement type="text">
+                  <h4 className="font-semibold text-green-800">Zaman Kazandırır</h4>
+                </EditableElement>
+                <EditableElement type="text">
+                  <p className="text-sm text-green-700">Verimli sistem kullanımı</p>
+                </EditableElement>
+              </div>
+            </EditableElement>
+            <EditableElement>
+              <div className="text-center p-4 bg-blue-50 rounded-lg">
+                <Shield className="h-8 w-8 text-blue-600 mx-auto mb-2" />
+                <EditableElement type="text">
+                  <h4 className="font-semibold text-blue-800">Güvenliği Artırır</h4>
+                </EditableElement>
+                <EditableElement type="text">
+                  <p className="text-sm text-blue-700">Veri ve sistem koruması</p>
+                </EditableElement>
+              </div>
+            </EditableElement>
+            <EditableElement>
+              <div className="text-center p-4 bg-purple-50 rounded-lg">
+                <Users className="h-8 w-8 text-purple-600 mx-auto mb-2" />
+                <EditableElement type="text">
+                  <h4 className="font-semibold text-purple-800">Ekip Çalışması</h4>
+                </EditableElement>
+                <EditableElement type="text">
+                  <p className="text-sm text-purple-700">İşbirliğini güçlendirir</p>
+                </EditableElement>
+              </div>
+            </EditableElement>
           </div>
         </CardContent>
       </SectionCard>
@@ -154,26 +191,46 @@ function App() {
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Building className="h-5 w-5" />
-            IT Ekibiyle Tanışın
+            <EditableElement type="text">
+              <span>IT Ekibiyle Tanışın</span>
+            </EditableElement>
           </CardTitle>
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mb-6">
-            <div className="p-4 border rounded-lg">
-              <Badge variant="outline" className="mb-2">TECH_INFRA</Badge>
-              <p className="text-sm text-gray-600 mb-2">Teknoloji Altyapısı</p>
-              <p className="text-xs text-gray-500">Sunucular, depolama sistemleri, veri merkezleri</p>
-            </div>
-            <div className="p-4 border rounded-lg">
-              <Badge variant="outline" className="mb-2">TECH_NETSEC</Badge>
-              <p className="text-sm text-gray-600 mb-2">Ağ ve Siber Güvenlik</p>
-              <p className="text-xs text-gray-500">Güvenlik duvarları, sızma testleri</p>
-            </div>
-            <div className="p-4 border rounded-lg">
-              <Badge variant="outline" className="mb-2">TECH_BACKOFFICE</Badge>
-              <p className="text-sm text-gray-600 mb-2">Arka Ofis Teknolojileri</p>
-              <p className="text-xs text-gray-500">ERP, CRM, İK sistemleri</p>
-            </div>
+            <EditableElement>
+              <div className="p-4 border rounded-lg">
+                <Badge variant="outline" className="mb-2">TECH_INFRA</Badge>
+                <EditableElement type="text">
+                  <p className="text-sm text-gray-600 mb-2">Teknoloji Altyapısı</p>
+                </EditableElement>
+                <EditableElement type="text">
+                  <p className="text-xs text-gray-500">Sunucular, depolama sistemleri, veri merkezleri</p>
+                </EditableElement>
+              </div>
+            </EditableElement>
+            <EditableElement>
+              <div className="p-4 border rounded-lg">
+                <Badge variant="outline" className="mb-2">TECH_NETSEC</Badge>
+                <EditableElement type="text">
+                  <p className="text-sm text-gray-600 mb-2">Ağ ve Siber Güvenlik</p>
+                </EditableElement>
+                <EditableElement type="text">
+                  <p className="text-xs text-gray-500">Güvenlik duvarları, sızma testleri</p>
+                </EditableElement>
+              </div>
+            </EditableElement>
+            <EditableElement>
+              <div className="p-4 border rounded-lg">
+                <Badge variant="outline" className="mb-2">TECH_BACKOFFICE</Badge>
+                <EditableElement type="text">
+                  <p className="text-sm text-gray-600 mb-2">Arka Ofis Teknolojileri</p>
+                </EditableElement>
+                <EditableElement type="text">
+                  <p className="text-xs text-gray-500">ERP, CRM, İK sistemleri</p>
+                </EditableElement>
+              </div>
+            </EditableElement>
           </div>
           
           <Alert>
@@ -677,7 +734,7 @@ function App() {
             <h4 className="font-semibold">Nasıl Kullanılır:</h4>
             <ol className="list-decimal list-inside space-y-2 text-gray-700">
               <li><strong>Giriş:</strong> Şirket e-posta ve şifrenizle</li>
-              <li><strong>Yeni masraf:</strong> "Masraf Ekle" > Fişi tarat > Kategori seç</li>
+              <li><strong>Yeni masraf:</strong> "Masraf Ekle" &gt; Fişi tarat &gt; Kategori seç</li>
               <li><strong>Kategoriler:</strong> Seyahat, Yemek, vs.</li>
               <li><strong>Onay:</strong> Fiş fotoğrafının net olduğundan emin olun</li>
             </ol>
@@ -919,75 +976,94 @@ function App() {
     }
   }
 
-  return (
-    <div className="min-h-screen bg-gray-50">
-      {/* Header */}
-      <header className="bg-white shadow-sm border-b">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between items-center py-4">
-            <div className="flex items-center gap-3">
-              <Monitor className="h-8 w-8 text-blue-600" />
-              <h1 className="text-xl font-bold text-gray-900">Digiturk IT Oryantasyonu</h1>
-            </div>
-            <div className="flex items-center gap-4">
-              <div className="text-sm text-gray-600">
-                İlerleme: {Math.round(progress)}%
-              </div>
-              <Progress value={progress} className="w-32" />
-            </div>
-          </div>
-        </div>
-      </header>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
-          {/* Sidebar Navigation */}
-          <div className="lg:col-span-1">
-            <Card className="sticky top-8">
-              <CardHeader>
-                <CardTitle className="text-lg">İçindekiler</CardTitle>
-                <CardDescription>40 Dakikalık Sunum</CardDescription>
-              </CardHeader>
-              <CardContent className="p-0">
-                <nav className="space-y-1">
-                  {sections.map((section) => {
-                    const Icon = section.icon
-                    const isCompleted = completedSections.has(section.id)
-                    const isCurrent = currentSection === section.id
-                    
-                    return (
-                      <button
-                        key={section.id}
-                        onClick={() => setCurrentSection(section.id)}
-                        className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
-                          isCurrent 
-                            ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600' 
-                            : 'hover:bg-gray-50'
-                        }`}
-                      >
-                        <Icon className="h-5 w-5" />
-                        <div className="flex-1">
-                          <span className="text-sm font-medium">{section.title}</span>
-                          <div className="text-xs text-gray-500">{section.duration}</div>
-                        </div>
-                        {isCompleted && (
-                          <CheckCircle className="h-4 w-4 text-green-600" />
-                        )}
-                      </button>
-                    )
-                  })}
-                </nav>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Main Content */}
-          <div className="lg:col-span-3">
-            {renderCurrentSection()}
-          </div>
-        </div>
+  const EditModeToggle = () => {
+    const { isEditMode, setIsEditMode } = useEdit()
+    
+    return (
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-gray-600">View</span>
+        <Switch
+          checked={isEditMode}
+          onCheckedChange={setIsEditMode}
+        />
+        <span className="text-sm text-gray-600">Edit</span>
       </div>
-    </div>
+    )
+  }
+
+  return (
+    <EditProvider>
+      <div className="min-h-screen bg-gray-50">
+        <header className="bg-white shadow-sm border-b">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="flex justify-between items-center py-4">
+              <div className="flex items-center gap-3">
+                <Monitor className="h-8 w-8 text-blue-600" />
+                <h1 className="text-xl font-bold text-gray-900">Digiturk IT Oryantasyonu</h1>
+              </div>
+              <div className="flex items-center gap-6">
+                <EditModeToggle />
+                <div className="flex items-center gap-4">
+                  <div className="text-sm text-gray-600">
+                    İlerleme: {Math.round(progress)}%
+                  </div>
+                  <Progress value={progress} className="w-32" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </header>
+
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+            <div className="lg:col-span-1">
+              <Card className="sticky top-8">
+                <CardHeader>
+                  <CardTitle className="text-lg">İçindekiler</CardTitle>
+                  <CardDescription>40 Dakikalık Sunum</CardDescription>
+                </CardHeader>
+                <CardContent className="p-0">
+                  <nav className="space-y-1">
+                    {sections.map((section) => {
+                      const Icon = section.icon
+                      const isCompleted = completedSections.has(section.id)
+                      const isCurrent = currentSection === section.id
+                      
+                      return (
+                        <button
+                          key={section.id}
+                          onClick={() => setCurrentSection(section.id)}
+                          className={`w-full flex items-center gap-3 px-4 py-3 text-left transition-colors ${
+                            isCurrent 
+                              ? 'bg-blue-50 text-blue-700 border-r-2 border-blue-600' 
+                              : 'hover:bg-gray-50'
+                          }`}
+                        >
+                          <Icon className="h-5 w-5" />
+                          <div className="flex-1">
+                            <span className="text-sm font-medium">{section.title}</span>
+                            <div className="text-xs text-gray-500">{section.duration}</div>
+                          </div>
+                          {isCompleted && (
+                            <CheckCircle className="h-4 w-4 text-green-600" />
+                          )}
+                        </button>
+                      )
+                    })}
+                  </nav>
+                </CardContent>
+              </Card>
+            </div>
+
+            <div className="lg:col-span-3">
+              {renderCurrentSection()}
+            </div>
+          </div>
+        </div>
+        <EditingControls />
+        <ResizeHandles />
+      </div>
+    </EditProvider>
   )
 }
 
